@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Currículo</title>
+  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Vitoria Novaes Xavier</h1>
+    </header>
+
+    <nav>
+        <ul id="menu">
+            <li><a href="#dados-pessoais">Dados Pessoais</a></li>
+            <li><a href="#experiencia">Experiência</a></li>
+            <li><a href="#formacao">Formação Acadêmica</a></li>
+            <li><a href="#habilidades">Habilidades</a></li>
+        </ul>
+    </nav>
+
+    <section id="dados-pessoais">
+        <h2>Dados Pessoais</h2>
+        <ul id="dados-pessoais-list">
+        </ul>
+    </section>
+
+    <section id="experiencia">
+        <h2>Experiência</h2>
+        <ul>
+            <li>
+                <h3>Mentora Educacional - Movimento Juvenil Judaico</h3>
+                <p><strong>Período:</strong> Janeiro 2020 - Presente</p>
+            </li>
+            <li>
+                <h3>Diretora Administrativa - Movimento Juvenil Judaico</h3>
+                <p><strong>Período:</strong> Janeiro 2020 - Dezembro 2021</p>
+            </li>
+            <li>
+                <h3> Engenheira de Hardware na TRACTIAN</h3>
+                <p><strong>Período:</strong> Maio 2022 - Agosto 2022</p>
+            </li>
+            <li>
+                <h3> Técnica em Eletrônica </h3>
+                <p><strong>Período:</strong> Janeiro 2019 - Dezembro 2022</p>
+            </li>
+            <li>
+                <h3> Professora de Inglês e Espanhol </h3>
+                <p><strong>Período:</strong> Janeiro 2021 - Julho 2022</p>
+            </li>
+        </ul>
+    </section>
+
+    <section id="formacao">
+        <h2>Formação Acadêmica</h2>
+        <ul>
+            <li>
+                <h3>Ensino Médio Completo - Colégio Univap Centro</h3>
+            </li>
+            <li>
+                <h3>Ensino Superior</h3>
+            </li>
+            <li>
+                <h3>1º Semestre no Instituto de Tecnologia e Liderança</h3>
+            </li>
+        </ul>
+    </section>
+
+    <section id="habilidades">
+        <h2>Habilidades</h2>
+        <ul>
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>JavaScript</li>
+            <li>Python</li>
+            <li>C++</li>
+            <li>C</li>
+        </ul>
+    </section>
+
+    <script>
+        $(document).ready(function() {
+            $("#menu a").click(function(e) {
+                e.preventDefault(); 
+
+                var targetSection = $(this).attr("href");
+                var offset = $(targetSection).offset().top; 
+
+                $("html, body").animate({
+                    scrollTop: offset
+                }, 800);
+            });
+
+            var novoItem = $("<li>Java</li>"); // Cria um novo elemento li
+            $("#habilidades ul").append(novoItem); // Insere o novo elemento na lista de habilidades
+
+            // Atividade Semana 7: Requisição AJAX para atualizar os dados pessoais
+            $.ajax({
+                url: "/dados-pessoais", // Rota p a requisição
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    // Atualizar os dados pessoais com base na resposta da requisição
+                    var dadosPessoais = $("#dados-pessoais-list");
+                    dadosPessoais.empty(); // Limpa o conteúdo existente
+
+                    // Adicionar os novos dados pessoais
+                    $.each(data, function(index, item) {
+                        dadosPessoais.append("<li><strong>" + item.label + ":</strong> " + item.value + "</li>");
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log("Erro na requisição AJAX:", error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
